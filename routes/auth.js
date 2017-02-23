@@ -13,15 +13,14 @@ router.get('/', function(req, res, next) {
   var options = {
     method: 'POST',
     hostname: 'github.com',
-    path: '/login/oauth/access_token',
-    client_id: CLIENT_ID,
-    client_secret: CLIENT_SECRET,
-    code: req.query.code,
-    accept: 'application/json'
+    path: '/login/oauth/access_token?client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + '&code=' + req.query.code,
+    headers: {
+      'Accept': 'application/json'
+    }
   }
 
   var gh_req = https.request(options, (gh_res) => {
-    console.log('Response: ' + JSON.stringify(gh_res));
+    console.log('Response: ' + gh_res);
     console.log('Status code: ' + gh_res.statusCode);
     console.log('Response headers: ' + JSON.stringify(gh_res.headers));
     gh_res.on('data', (d) => {
