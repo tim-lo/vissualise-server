@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
 
   var gh_req = https.request(options, (gh_res) => {
     console.log('Status code: ' + gh_res.statusCode);
-    console.log('Response headers: ' + JSON.stringify(gh_res.headers));
+    console.log('Response headers: ' + JSON.stringify(gh_res.headers[0]));
     gh_res.on('data', (d) => {
       ACCESS_TOKEN = d;
       console.log('Payload: ', d);
