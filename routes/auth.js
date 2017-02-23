@@ -27,7 +27,7 @@ router.get('/', function(req, res, next) {
     gh_res.on('data', (d) => {
       ACCESS_TOKEN = d;
       console.log('Payload: ', d);
-      process.stdout.write(d);
+      // process.stdout.write(d);
     });
   });
 
