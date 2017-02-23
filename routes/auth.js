@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
   var ACCESS_TOKEN;
   var options = {
     method: 'POST',
-    hostname: 'www.github.com',
+    hostname: 'github.com',
     path: '/login/oauth/access_token',
     client_id: CLIENT_ID,
     client_secret: CLIENT_SECRET,
@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
 
   var gh_req = https.request(options, (gh_res) => {
     console.log('Status code: ' + gh_res.statusCode);
-    console.log('Response headers: ' + gh_res.headers);
+    console.log('Response headers: ' + JSON.stringify(gh_res.headers));
     gh_res.on('data', (d) => {
       ACCESS_TOKEN = d;
       console.log('Payload: ', d);
