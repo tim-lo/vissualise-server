@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
   var ACCESS_TOKEN;
   var options = {
     method: 'POST',
-    hostname: 'https://www.github.com',
+    hostname: 'www.github.com',
     path: '/login/oauth/access_token',
     client_id: CLIENT_ID,
     client_secret: CLIENT_SECRET,
@@ -35,7 +35,7 @@ router.get('/', function(req, res, next) {
 
   gh_req.end();
 
-  res.render('index', { title: 'Code value: ' + req.query.code + 'Access token: ' + ACCESS_TOKEN});
+  res.render('index', { title: 'Code value: ' + req.query.code + ' Access token: ' + ACCESS_TOKEN});
 });
 
 module.exports = router;
