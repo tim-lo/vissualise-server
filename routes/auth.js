@@ -25,7 +25,7 @@ router.get('/', function(req, res, next) {
     console.log('Response headers: ' + JSON.stringify(gh_res.headers));
     gh_res.on('data', (d) => {
       ACCESS_TOKEN = d;
-      console.log('Payload: ', d);
+      console.log('Payload: ', d.toString());
       // process.stdout.write(d);
     });
   });
