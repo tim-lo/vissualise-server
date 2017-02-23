@@ -8,7 +8,7 @@ const CLIENT_SECRET = "45766ce64775b29c7e544f6e1484ffbd57f3c732";
 
 /* Grabs the temporary auth code and gets the access token. */
 router.get('/', function(req, res, next) {
-  mongoose.connect('mongodb://thomas.li@ds157829.mlab.com:57829/heroku_d91pg99g');
+  mongoose.connect('mongodb://thomas.li:T0iviL1Heroku@ds157829.mlab.com:57829/heroku_d91pg99g');
   var db = mongoose.connection;
   db.on('error', console.error.bind(console, 'connection error:'));
   db.once('open', function() {
