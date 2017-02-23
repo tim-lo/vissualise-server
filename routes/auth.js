@@ -1,6 +1,8 @@
-var express = require('express');
-var https = require('https');
-var mongoose = require('mongoose');
+var express = require('express')
+  , https = require('https')
+  , mongo = require('mongodb').MongoClient
+  , assert = require('assert');
+
 var router = express.Router();
 
 const CLIENT_ID = "da3d5188a6954fdd74f6";
@@ -8,11 +10,10 @@ const CLIENT_SECRET = "45766ce64775b29c7e544f6e1484ffbd57f3c732";
 
 /* Grabs the temporary auth code and gets the access token. */
 router.get('/', function(req, res, next) {
-  mongoose.connect('mongodb://vissualise:vissualise@ds157829.mlab.com:57829/heroku_d91pg99g');
-  var db = mongoose.connection;
-  db.on('error', console.error.bind(console, 'connection error:'));
-  db.once('open', function() {
-    console.log("MongoDB connected!");
+  mongo.connect('mongodb://vissualise:vissualise@ds157829.mlab.com:57829/heroku_d91pg99g', (err, db) => {
+    assert.equal(null, err);
+    console.log("MongoDB connection successful!");
+    db.close();
   });
 
   console.log("Code value: " + req.query.code);
