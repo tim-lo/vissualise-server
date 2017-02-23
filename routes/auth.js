@@ -24,9 +24,9 @@ router.get('/', function(req, res, next) {
     console.log('Status code: ' + gh_res.statusCode);
     console.log('Response headers: ' + JSON.stringify(gh_res.headers));
     gh_res.on('data', (d) => {
-      ACCESS_TOKEN = d;
+      ACCESS_TOKEN = JSON.parse(d.toString());
       console.log('Payload: ', d.toString());
-      // process.stdout.write(d);
+      res.render('index', { title: 'Code value: ' + req.query.code + ' Access token: ' + ACCESS_TOKEN["access_token"]});
     });
   });
 
@@ -36,7 +36,7 @@ router.get('/', function(req, res, next) {
 
   gh_req.end();
 
-  res.render('index', { title: 'Code value: ' + req.query.code + ' Access token: ' + ACCESS_TOKEN});
+  
 });
 
 module.exports = router;
