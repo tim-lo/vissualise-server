@@ -8,7 +8,7 @@ var router = express.Router();
 const CLIENT_ID = "da3d5188a6954fdd74f6";
 const CLIENT_SECRET = "45766ce64775b29c7e544f6e1484ffbd57f3c732";
 
-// {"access_token":"70f346c51557f7e631cbc6771d350aff60aa028d","token_type":"bearer","scope":"repo,user:email"}
+//Return JSON format: {"access_token":"ACCESS_TOKEN","token_type":"bearer","scope":"repo,user:email"}
 
 /* Grabs the temporary auth code and gets the access token. */
 router.get('/', function(req, res, next) {
