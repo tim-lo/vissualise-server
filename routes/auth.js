@@ -51,6 +51,7 @@ function getUserRepos() {
     hostname: 'api.github.com',
     path: '/user',
     headers: {
+      'User-Agent': 'Vissualise',
       'Accept': 'application/json'
     }
   }
