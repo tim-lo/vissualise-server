@@ -46,17 +46,19 @@ router.get('/', function(req, res, next) {
 });
 
 function getUserRepos() {
+  console.log("Access token: " + ACCESS_TOKEN);
   var options = {
     method: 'GET',
     hostname: 'api.github.com',
     path: '/user',
     headers: {
-      'User-Agent': 'Vissualise',
-      'Authorization': 'token ' + ACCESS_TOKEN,
-      'Accept': 'application/json'
+      "User-Agent": "Vissualise",
+      "Authorization": "token " + ACCESS_TOKEN,
+      "Accept": "application/json"
     }
   }
   var gh_req = https.request(options, (gh_res) => {
+    console.log("Request headers: " + JSON.stringify(gh_req.headers));
     console.log('Response: ' + gh_res);
     console.log('Status code: ' + gh_res.statusCode);
     console.log('Response headers: ' + JSON.stringify(gh_res.headers));
