@@ -48,7 +48,7 @@ router.get('/', function(req, res, next) {
 function getUserRepos() {
   var options = {
     method: 'GET',
-    hostname: 'github.com',
+    hostname: 'api.github.com',
     path: '/user',
     headers: {
       'Accept': 'application/json'
