@@ -42,6 +42,10 @@ router.get('/', function(req, res, next) {
   });
 
   gh_req.on('error', (e) => {
+    res.locals.message = e.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    res.status(err.status || 500);
+    res.render('error');
     console.error(e);
   });
 
