@@ -6,7 +6,6 @@ var router = express.Router();
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 
-//Return JSON format: {"access_token":"ACCESS_TOKEN","token_type":"bearer","scope":"repo,user:email"}
 
 /* Grabs the temporary auth code and gets the access token. */
 router.get('/', function(req, res, next) {
@@ -27,8 +26,10 @@ router.get('/', function(req, res, next) {
     console.log('Status code: ' + gh_res.statusCode);
     console.log('Response headers: ' + JSON.stringify(gh_res.headers));
     gh_res.on('data', (d) => {
+      /* Return JSON format: {"access_token":"ACCESS_TOKEN","token_type":"bearer","scope":"repo,user:email"} */
       ACCESS_TOKEN = JSON.parse(d.toString());
-      console.log('Payload: ', d.toString());
+      //console.log('Payload: ', d.toString());
+      console.log('User repos: ' + getUserRepos());
       res.render('graph', { title: 'Code value: ' + req.query.code + ' Access token: ' + ACCESS_TOKEN["access_token"]});
     });
   });
@@ -43,5 +44,30 @@ router.get('/', function(req, res, next) {
 
   gh_req.end();
 });
+
+function getUserRepos() {
+  var options = {
+    method: 'GET',
+    hostname: 'github.com',
+    path: '/user',
+    headers: {
+      'Accept': 'application/json'
+    }
+  }
+  var gh_req = https.request(options, (gh_res) => {
+    gh_res.on('data', (d) => {
+      return JSON.parse(d).login;
+    });
+  });
+  gh_req.on('error', (e) => {
+    res.locals.message = e.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    res.status(err.status || 500);
+    res.render('error');
+    console.error(e);
+    return "Error";
+  });
+  gh_req.end();
+}
 
 module.exports = router;
