@@ -1,7 +1,5 @@
 var express = require('express')
-  , https = require('https')
-  , mongo = require('mongodb').MongoClient
-  , assert = require('assert');
+  , https = require('https');
 
 var router = express.Router();
 
@@ -12,11 +10,6 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET;
 
 /* Grabs the temporary auth code and gets the access token. */
 router.get('/', function(req, res, next) {
-  mongo.connect(process.env.MONGODB_URI, (err, db) => {
-    assert.equal(null, err);
-    console.log("MongoDB connection successful!");
-  });
-
   console.log("Code value: " + req.query.code);
 
   var ACCESS_TOKEN;
@@ -36,7 +29,7 @@ router.get('/', function(req, res, next) {
     gh_res.on('data', (d) => {
       ACCESS_TOKEN = JSON.parse(d.toString());
       console.log('Payload: ', d.toString());
-      res.render('index', { title: 'Code value: ' + req.query.code + ' Access token: ' + ACCESS_TOKEN["access_token"]});
+      res.render('layout', { title: 'Code value: ' + req.query.code + ' Access token: ' + ACCESS_TOKEN["access_token"]});
     });
   });
 
