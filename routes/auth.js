@@ -29,7 +29,7 @@ router.get('/', function(req, res, next) {
     gh_res.on('data', (d) => {
       ACCESS_TOKEN = JSON.parse(d.toString());
       console.log('Payload: ', d.toString());
-      res.render('layout', { title: 'Code value: ' + req.query.code + ' Access token: ' + ACCESS_TOKEN["access_token"]});
+      res.render('graph', { title: 'Code value: ' + req.query.code + ' Access token: ' + ACCESS_TOKEN["access_token"]});
     });
   });
 
