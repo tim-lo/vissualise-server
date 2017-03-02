@@ -52,6 +52,7 @@ function getUserRepos() {
     path: '/user',
     headers: {
       'User-Agent': 'Vissualise',
+      'Authorization': 'token ' + ACCESS_TOKEN,
       'Accept': 'application/json'
     }
   }
