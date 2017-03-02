@@ -5,17 +5,16 @@ var express = require('express')
 
 var router = express.Router();
 
-const CLIENT_ID = "da3d5188a6954fdd74f6";
-const CLIENT_SECRET = "45766ce64775b29c7e544f6e1484ffbd57f3c732";
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
 
 //Return JSON format: {"access_token":"ACCESS_TOKEN","token_type":"bearer","scope":"repo,user:email"}
 
 /* Grabs the temporary auth code and gets the access token. */
 router.get('/', function(req, res, next) {
-  mongo.connect('mongodb://vissualise:vissualise@ds157829.mlab.com:57829/heroku_d91pg99g', (err, db) => {
+  mongo.connect(process.env.MONGODB_URI, (err, db) => {
     assert.equal(null, err);
     console.log("MongoDB connection successful!");
-    db.close();
   });
 
   console.log("Code value: " + req.query.code);

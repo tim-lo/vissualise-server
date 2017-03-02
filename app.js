@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongo = require('mongodb').MongoClient;
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -49,6 +50,11 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+mongo.connect(process.env.MONGODB_URI, (err, db) => {
+  assert.equal(null, err);
+  console.log("MongoDB connection successful!");
 });
 
 module.exports = app;
