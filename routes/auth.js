@@ -5,13 +5,13 @@ var router = express.Router();
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
+var ACCESS_TOKEN;
 
 
 /* Grabs the temporary auth code and gets the access token. */
 router.get('/', function(req, res, next) {
   console.log("Code value: " + req.query.code);
 
-  var ACCESS_TOKEN;
   var options = {
     method: 'POST',
     hostname: 'github.com',
