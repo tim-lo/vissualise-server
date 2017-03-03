@@ -62,8 +62,10 @@ function getUserRepos() {
     console.log('Status code: ' + gh_res.statusCode);
     console.log('Response headers: ' + JSON.stringify(gh_res.headers));
     gh_res.on('data', (d) => {
-      var t = JSON.parse(d);
-      console.log(t['login']);
+      var t = JSON.stringify(d);
+      var u = JSON.parse(t);
+      console.log(u[0].login);
+
     });
   });
 
