@@ -29,7 +29,7 @@ router.get('/', function(req, res, next) {
       ACCESS_TOKEN = JSON.parse(d.toString());
       //console.log('Payload: ', d.toString());
       getUserRepos();
-      res.render('graph', { title: 'Code value: ' + req.query.code + ' Access token: ' + ACCESS_TOKEN["access_token"]});
+      res.render('graph', { title: 'That worked!', message: 'Code value: ' + req.query.code + ' Access token: ' + ACCESS_TOKEN["access_token"]});
     });
   });
 
