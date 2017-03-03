@@ -1,8 +1,8 @@
 var express = require('express')
   , https = require('https');
-
 var router = express.Router();
-
+const StringDecoder = require('string_decoder').StringDecoder;
+const decoder = new StringDecoder('utf8');
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 var ACCESS_TOKEN;
@@ -62,7 +62,7 @@ function getUserRepos() {
     console.log('Status code: ' + gh_res.statusCode);
     console.log('Response headers: ' + JSON.stringify(gh_res.headers));
     gh_res.on('data', (d) => {
-      response_data = JSON.parse(d.toString());
+      console.log(decoder.write(d));
     });
   });
 
