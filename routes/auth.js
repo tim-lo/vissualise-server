@@ -64,7 +64,7 @@ function getUserRepos() {
     gh_res.on('data', (d) => {
       var t = JSON.stringify(d.toString());
       var u = JSON.parse(t);
-      console.log(u);
+      console.log(u.login);
 
     });
   });
