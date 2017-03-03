@@ -45,32 +45,33 @@ router.get('/', function(req, res, next) {
 });
 
 function getUserRepos() {
-  var options = {
-    method: 'GET',
-    hostname: 'api.github.com',
-    path: '/user',
-    headers: {
-      "User-Agent": "Vissualise",
-      "Authorization": "token " + ACCESS_TOKEN["access_token"],
-      "Accept": "application/json"
-    }
-  }
-  var gh_req = https.request(options, (gh_res) => {
-    console.log('Response: ' + gh_res);
-    console.log('Status code: ' + gh_res.statusCode);
-    console.log('Response headers: ' + JSON.stringify(gh_res.headers));
-    gh_res.on('data', (d) => {
-      console.log('Data: ' + JSON.parse(d));
-    });
-  });
-  gh_req.on('error', (e) => {
-    res.locals.message = e.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-    res.status(err.status || 500);
-    res.render('error');
-    console.error(e);
-  });
-  gh_req.end();
+  // var options = {
+  //   method: 'GET',
+  //   hostname: 'api.github.com',
+  //   path: '/user',
+  //   headers: {
+  //     "User-Agent": "Vissualise",
+  //     "Authorization": "token " + ACCESS_TOKEN["access_token"],
+  //     "Accept": "application/json"
+  //   }
+  // }
+  // var gh_req = https.request(options, (gh_res) => {
+  //   console.log('Response: ' + gh_res);
+  //   console.log('Status code: ' + gh_res.statusCode);
+  //   console.log('Response headers: ' + JSON.stringify(gh_res.headers));
+  //   gh_res.on('data', (d) => {
+  //     console.log('Data: ' + JSON.parse(d));
+  //   });
+  // });
+  // gh_req.on('error', (e) => {
+  //   res.locals.message = e.message;
+  //   res.locals.error = req.app.get('env') === 'development' ? err : {};
+  //   res.status(err.status || 500);
+  //   res.render('error');
+  //   console.error(e);
+  // });
+  // gh_req.end();
+  console.log("Say what: " + gh_res.statusCode);
 }
 
 module.exports = router;
