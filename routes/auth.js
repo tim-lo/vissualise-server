@@ -45,6 +45,7 @@ router.get('/', function(req, res, next) {
 });
 
 function getUserRepos() {
+  var response_data;
   var options = {
     method: 'GET',
     hostname: 'api.github.com',
@@ -61,7 +62,7 @@ function getUserRepos() {
     console.log('Status code: ' + gh_res.statusCode);
     console.log('Response headers: ' + JSON.stringify(gh_res.headers));
     gh_res.on('data', (d) => {
-      console.log('Data: ' + JSON.parse(d.toString()));
+      response_data = JSON.parse(d.toString());
     });
   });
 
