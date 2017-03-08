@@ -13,13 +13,6 @@ var temp;
 /* Grabs the temporary auth code and gets the access token. */
 router.get("/", function(req, res, next) {
   console.log("Code value: " + req.query.code);
-  db = req.app.locals.db;
-  users = db.collection("Users");
-  users.insert({name:"Me!"});
-  temp = users.find().toArray((err, object) => {
-    return object;
-  });
-  console.log(temp);
 
   var options = {
     method: "POST",
@@ -37,10 +30,8 @@ router.get("/", function(req, res, next) {
     gh_res.on("data", (d) => {
       /* Return JSON format: {"access_token":"ACCESS_TOKEN","token_type":"bearer","scope":"repo,user:email"} */
       ACCESS_TOKEN = JSON.parse(d.toString());
-      //console.log("Payload: ", d.toString());
       getUserRepos();
-      // res.render("graph", { title: "That worked!", message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]});
-      res.render("graph", { title: "That worked!", message: JSON.stringify(temp)});
+      res.render("graph", { title: "That worked!", message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]});
     });
   });
 

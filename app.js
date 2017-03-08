@@ -4,20 +4,12 @@ var favicon = require("serve-favicon");
 var logger = require("morgan");
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
-var assert = require("assert");
-var mongo = require("mongodb").MongoClient;
 
 var index = require("./routes/index");
 var users = require("./routes/users");
 var auth = require("./routes/auth");
 
 var app = express();
-
-mongo.connect(process.env.MONGODB_URI, (err, db) => {
-  assert.equal(null, err);
-  console.log("MongoDB connection successful!");
-  app.locals.db = db;
-});
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
