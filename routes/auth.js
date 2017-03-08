@@ -29,7 +29,7 @@ router.get("/", function(req, res, next) {
     headers: {
       "Accept": "application/json"
     }
-  }
+  };
 
   var GHRequest = https.request(options, (GHResponse) => {
     console.log("Response: " + GHResponse);
