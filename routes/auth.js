@@ -1,6 +1,6 @@
-var   express = require("express")
-    , https = require("https")
-    , mongoose = require("mongoose");
+var   express = require("express"),
+      https = require("https"),
+      mongoose = require("mongoose");
 var   router = express.Router();
 const StringDecoder = require("string_decoder").StringDecoder;
 const decoder = new StringDecoder("utf8");
@@ -11,6 +11,12 @@ var   ACCESS_TOKEN;
 /* Grabs the temporary auth code and gets the access token. */
 router.get("/", function(req, res, next) {
   console.log("Code value: " + req.query.code);
+  mongoose.connect(process.env.MONGODB_URI);
+  var db = mongoose.connection;
+  db.on("error", console.error.bind(console, "MongoDB connection error: "));
+  db.on("open", function() {
+    console.log("MongoDB connection successful!");
+  });
   var UsersSchema = mongoose.Schema({
     name: String,
     token: String
@@ -65,7 +71,7 @@ function getUserRepos() {
       "Authorization": "token " + ACCESS_TOKEN["access_token"],
       "Accept": "application/json"
     }
-  }
+  };
 
   var gh_req = https.request(options, (gh_res) => {
     console.log("Response: " + gh_res);
