@@ -14,7 +14,7 @@ router.get("/", function(req, res, next) {
   console.log("Code value: " + req.query.code);
   db = req.app.locals.db;
   db.collections((e, c) => {
-    console.log("Collections: " + c.toString());
+    console.log("Collections: " + JSON.stringify(c));
   })
 
   var options = {
