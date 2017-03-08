@@ -10,6 +10,7 @@ var ACCESS_TOKEN;
 /* Grabs the temporary auth code and gets the access token. */
 router.get('/', function(req, res, next) {
   console.log("Code value: " + req.query.code);
+  console.log(req.app.locals);
 
   var options = {
     method: 'POST',
