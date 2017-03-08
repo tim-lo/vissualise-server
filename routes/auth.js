@@ -18,6 +18,8 @@ router.get("/", function(req, res, next) {
   users.insert({name:"Me!"});
   temp = users.find({}, (e, o) => {
     return o;
+  }).toArray((err, callback) => {
+    callback();
   });
 
   var options = {
