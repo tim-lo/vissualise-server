@@ -17,16 +17,16 @@ router.get("/", function(req, res, next) {
   db.on("open", function() {
     console.log("MongoDB connection successful!");
   });
-  // var UsersSchema = mongoose.Schema({
-  //   name: String,
-  //   token: String
-  // });
-  // var Users = mongoose.Model("Users", UsersSchema);
-  // var JohnDoe = new Users({
-  //   name: "John Doe",
-  //   token: "123456789"
-  // });
-  // console.log("Hello, my name is " + JohnDoe.name);
+  var UsersSchema = mongoose.Schema({
+    name: String,
+    token: String
+  });
+  var Users = mongoose.model("Users", UsersSchema);
+  var JohnDoe = new Users({
+    name: "John Doe",
+    token: "123456789"
+  });
+  console.log("Hello, my name is " + JohnDoe.name);
 
   var options = {
     method: "POST",
