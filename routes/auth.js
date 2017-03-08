@@ -10,7 +10,8 @@ var   ACCESS_TOKEN;
 /* Grabs the temporary auth code and gets the access token. */
 router.get("/", function(req, res, next) {
   console.log("Code value: " + req.query.code);
-  console.log("Mongoose connection: " + req.app.locals.db);
+  console.log("Mongoose connection: " + req.app.locals.db.toString());
+
 
   var options = {
     method: "POST",
