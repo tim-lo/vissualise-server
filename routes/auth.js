@@ -1,14 +1,11 @@
-var express = require("express")
-  , https = require("https");
-var router = express.Router();
+var   express = require("express")
+    , https = require("https");
+var   router = express.Router();
 const StringDecoder = require("string_decoder").StringDecoder;
 const decoder = new StringDecoder("utf8");
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
-var ACCESS_TOKEN;
-var db;
-var users;
-var temp;
+var   ACCESS_TOKEN;
 
 /* Grabs the temporary auth code and gets the access token. */
 router.get("/", function(req, res, next) {

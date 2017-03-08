@@ -1,20 +1,21 @@
+var bodyParser = require("body-parser");
+var cookieParser = require("cookie-parser");
 var express = require("express");
-var path = require("path");
 var favicon = require("serve-favicon");
 var logger = require("morgan");
-var cookieParser = require("cookie-parser");
-var bodyParser = require("body-parser");
+var mongoose = require("mongoose");
+var path = require("path");
 
+var auth = require("./routes/auth");
 var index = require("./routes/index");
 var users = require("./routes/users");
-var auth = require("./routes/auth");
 
 var app = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
-app.set()
+app.set();
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
@@ -51,5 +52,12 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
+
+mongoose.connect("mongodb://vissualise:vissualise@ds157829.mlab.com:57829/heroku_d91pg99g");
+var db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error: "));
+db.on("open", function() {
+  console.log("MongoDB connection successful!");
+})
 
 module.exports = app;
