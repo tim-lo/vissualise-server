@@ -58,6 +58,7 @@ var db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error: "));
 db.on("open", function() {
   console.log("MongoDB connection successful!");
+  app.locals.db = db;
 })
 
 module.exports = app;
