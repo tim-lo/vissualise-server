@@ -8,6 +8,7 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET;
 var ACCESS_TOKEN;
 var db;
 var users;
+var temp;
 
 /* Grabs the temporary auth code and gets the access token. */
 router.get("/", function(req, res, next) {
@@ -15,9 +16,9 @@ router.get("/", function(req, res, next) {
   db = req.app.locals.db;
   users = db.collection("Users");
   users.insert({name:"Me!"});
-  console.log(users.find({}, (e, o) => {
+  temp = users.find({}, (e, o) => {
     return o;
-  }));
+  });
 
   var options = {
     method: "POST",
@@ -37,7 +38,8 @@ router.get("/", function(req, res, next) {
       ACCESS_TOKEN = JSON.parse(d.toString());
       //console.log("Payload: ", d.toString());
       getUserRepos();
-      res.render("graph", { title: "That worked!", message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]});
+      // res.render("graph", { title: "That worked!", message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]});
+      res.render("graph", { title: "That worked!", message: temp});
     });
   });
 
