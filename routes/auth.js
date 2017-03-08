@@ -18,9 +18,10 @@ router.get("/", function(req, res, next) {
   users.insert({name:"Me!"});
   temp = users.find({}, (e, o) => {
     return o;
-  }).toArray((err, callback) => {
-    callback();
+  }).toArray((err, object) => {
+    return object;
   });
+  console.log(temp);
 
   var options = {
     method: "POST",
