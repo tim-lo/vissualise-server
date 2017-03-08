@@ -13,7 +13,7 @@ var users;
 router.get("/", function(req, res, next) {
   console.log("Code value: " + req.query.code);
   db = req.app.locals.db;
-  db.collectionNames((e, c) => {
+  db.collections((e, c) => {
     console.log("Collections: " + c);
   })
 
