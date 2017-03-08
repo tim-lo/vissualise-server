@@ -11,7 +11,7 @@ var ACCESS_TOKEN;
 router.get('/', function(req, res, next) {
   console.log("Code value: " + req.query.code);
   console.log("MongoDB connection: " + req.app.locals.db);
-  console.log("User collection: " + req.app.locals.db.getCollection('Users').find({}));
+  console.log("User collection: " + req.app.locals.db.collection('Users');
 
   var options = {
     method: 'POST',
