@@ -16,9 +16,7 @@ router.get("/", function(req, res, next) {
   db = req.app.locals.db;
   users = db.collection("Users");
   users.insert({name:"Me!"});
-  temp = users.find({}, (e, o) => {
-    return o;
-  }).toArray((err, object) => {
+  temp = users.find().toArray((err, object) => {
     return object;
   });
   console.log(temp);
