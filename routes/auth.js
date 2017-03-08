@@ -1,5 +1,6 @@
 var   express = require("express")
-    , https = require("https");
+    , https = require("https")
+    , mongoose = require("mongoose");
 var   router = express.Router();
 const StringDecoder = require("string_decoder").StringDecoder;
 const decoder = new StringDecoder("utf8");
@@ -10,8 +11,16 @@ var   ACCESS_TOKEN;
 /* Grabs the temporary auth code and gets the access token. */
 router.get("/", function(req, res, next) {
   console.log("Code value: " + req.query.code);
-  console.log("Mongoose connection: " + JSON.stringify(req.app.locals.db));
-
+  var UsersSchema = mongoose.Schema({
+    name: String,
+    token: String
+  });
+  var Users = mongoose.Model("Users", UsersSchema);
+  var JohnDoe = new Users({
+    name: "John Doe",
+    token: "123456789"
+  });
+  console.log("Hello, my name is " + JohnDoe.name);
 
   var options = {
     method: "POST",
@@ -22,11 +31,11 @@ router.get("/", function(req, res, next) {
     }
   }
 
-  var gh_req = https.request(options, (gh_res) => {
-    console.log("Response: " + gh_res);
-    console.log("Status code: " + gh_res.statusCode);
-    console.log("Response headers: " + JSON.stringify(gh_res.headers));
-    gh_res.on("data", (d) => {
+  var GHRequest = https.request(options, (GHResponse) => {
+    console.log("Response: " + GHResponse);
+    console.log("Status code: " + GHResponse.statusCode);
+    console.log("Response headers: " + JSON.stringify(GHResponse.headers));
+    GHResponse.on("data", (d) => {
       /* Return JSON format: {"access_token":"ACCESS_TOKEN","token_type":"bearer","scope":"repo,user:email"} */
       ACCESS_TOKEN = JSON.parse(d.toString());
       getUserRepos();
@@ -34,7 +43,7 @@ router.get("/", function(req, res, next) {
     });
   });
 
-  gh_req.on("error", (e) => {
+  GHRequest.on("error", (e) => {
     res.locals.message = e.message;
     res.locals.error = req.app.get("env") === "development" ? err : {};
     res.status(err.status || 500);
@@ -42,7 +51,7 @@ router.get("/", function(req, res, next) {
     console.error(e);
   });
 
-  gh_req.end();
+  GHRequest.end();
 });
 
 function getUserRepos() {
