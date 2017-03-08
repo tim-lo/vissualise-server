@@ -39,7 +39,7 @@ router.get("/", function(req, res, next) {
       //console.log("Payload: ", d.toString());
       getUserRepos();
       // res.render("graph", { title: "That worked!", message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]});
-      res.render("graph", { title: "That worked!", message: temp});
+      res.render("graph", { title: "That worked!", message: JSON.stringify(temp)});
     });
   });
 
