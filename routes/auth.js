@@ -13,7 +13,11 @@ var users;
 router.get("/", function(req, res, next) {
   console.log("Code value: " + req.query.code);
   db = req.app.locals.db;
-  console.log(db.collection("Users"));
+  users = db.collection("Users");
+  users.insert({name:"Me!"});
+  console.log(users.find({}, (e, o) => {
+    return o;
+  }));
 
   var options = {
     method: "POST",
