@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var assert = require('assert');
 var mongo = require('mongodb').MongoClient;
-// var db;
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -23,7 +22,6 @@ mongo.connect(process.env.MONGODB_URI, (err, db) => {
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-// app.set('mongo connection', db);
 app.set()
 
 // uncomment after placing your favicon in /public
