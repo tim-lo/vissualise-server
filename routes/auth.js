@@ -34,10 +34,10 @@ router.get("/", function(req, res, next) {
     })
   });
 
-  getUserID().then(getUserRepos());
+  getUserID(req, res, next).then(getUserRepos(req, res, next)).catch(next);
 });
 
-function getUserID() {
+function getUserID(req, res, next) {
   var options = {
     method: "POST",
     hostname: "github.com",
@@ -70,7 +70,7 @@ function getUserID() {
   GHRequest.end();
 }
 
-function getUserRepos() {
+function getUserRepos(req, res, next) {
   var responseData;
   var options = {
     method: "GET",
@@ -78,7 +78,7 @@ function getUserRepos() {
     path: "/user",
     headers: {
       "User-Agent": "Vissualise",
-      "Authorization": "token " + ACCESS_TOKEN["access_token"],
+      "Authorization": "token " + ACCESS_TOKEN,
       "Accept": "application/json"
     }
   };
