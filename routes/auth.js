@@ -14,7 +14,7 @@ router.get("/", function(req, res, next) {
   var UsersSchema = mongoose.Schema({
     name: String,
     token: String
-  });
+  }, { collection: "Users" });
   var Users = mongoose.model("Users", UsersSchema);
   var JohnDoe = new Users({
     name: "John Doe",
