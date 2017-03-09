@@ -27,6 +27,14 @@ router.get("/", function(req, res, next) {
     token: "123456789"
   });
   console.log("Hello, my name is " + JohnDoe.name);
+  JohnDoe.save((err, JohnDoe) => {
+    if (err) return console.error(err);
+    console.log("User saved!");
+  });
+  Users.find((err, users) => {
+    if (err) return console.error(err);
+    console.log("All users: " + users);
+  })
 
   var options = {
     method: "POST",
