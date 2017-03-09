@@ -11,12 +11,6 @@ var   ACCESS_TOKEN;
 /* Grabs the temporary auth code and gets the access token. */
 router.get("/", function(req, res, next) {
   console.log("Code value: " + req.query.code);
-  mongoose.connect(process.env.MONGODB_URI);
-  var db = mongoose.connection;
-  db.on("error", console.error.bind(console, "MongoDB connection error: "));
-  db.on("open", function() {
-    console.log("MongoDB connection successful!");
-  });
   var UsersSchema = mongoose.Schema({
     name: String,
     token: String
