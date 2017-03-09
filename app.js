@@ -53,7 +53,7 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-mongoose.connect("mongodb://vissualise:vissualise@ds157829.mlab.com:57829/heroku_d91pg99g");
+mongoose.connect(process.env.MONGODB_URI);
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error: "));
 db.on("open", function() {
