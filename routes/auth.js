@@ -7,6 +7,7 @@ const decoder = new StringDecoder("utf8");
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 var   ACCESS_TOKEN;
+var   ACCESS_SCOPE;
 
 /* Grabs the temporary auth code and gets the access token. */
 router.get("/", function(req, res, next) {
@@ -14,7 +15,10 @@ router.get("/", function(req, res, next) {
   var UsersSchema = mongoose.Schema({
     name: String,
     token: String
-  }, { collection: "Users" });
+  }, {
+    collection: "Users",
+    minimize: false
+  });
   var Users = mongoose.model("Users", UsersSchema);
   var JohnDoe = new Users({
     name: "John Doe",
@@ -30,6 +34,10 @@ router.get("/", function(req, res, next) {
     })
   });
 
+  getUserID().then(getUserRepos());
+});
+
+function getUserID() {
   var options = {
     method: "POST",
     hostname: "github.com",
@@ -45,9 +53,9 @@ router.get("/", function(req, res, next) {
     console.log("Response headers: " + JSON.stringify(GHResponse.headers));
     GHResponse.on("data", (d) => {
       /* Return JSON format: {"access_token":"ACCESS_TOKEN","token_type":"bearer","scope":"repo,user:email"} */
-      ACCESS_TOKEN = JSON.parse(d.toString());
-      getUserRepos();
-      res.render("graph", { title: "That worked!", message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]});
+      ACCESS_TOKEN = JSON.parse(d.toString())["access_token"];
+      ACCESS_SCOPE = JSON.parse(d.toString())["scope"];
+      res.render("graph", { title: "That worked!", message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN});
     });
   });
 
@@ -60,10 +68,10 @@ router.get("/", function(req, res, next) {
   });
 
   GHRequest.end();
-});
+}
 
 function getUserRepos() {
-  var response_data;
+  var responseData;
   var options = {
     method: "GET",
     hostname: "api.github.com",
@@ -75,25 +83,24 @@ function getUserRepos() {
     }
   };
 
-  var gh_req = https.request(options, (gh_res) => {
-    console.log("Response: " + gh_res);
-    console.log("Status code: " + gh_res.statusCode);
-    console.log("Response headers: " + JSON.stringify(gh_res.headers));
-    gh_res.on("data", (d) => {
-      var t = d.toString();
-      // var u = JSON.parse(t);
-      console.log(t);
+  var GHRequest = https.request(options, (GHResponse) => {
+    console.log("Response: " + GHResponse);
+    console.log("Status code: " + GHResponse.statusCode);
+    console.log("Response headers: " + JSON.stringify(GHResponse.headers));
+    GHResponse.on("data", (d) => {
+      console.log(d);
     });
   });
 
-  gh_req.on("error", (e) => {
+  GHRequest.on("error", (e) => {
     res.locals.message = e.message;
     res.locals.error = req.app.get("env") === "development" ? err : {};
     res.status(err.status || 500);
     res.render("error");
     console.error(e);
   });
-  gh_req.end();
+  
+  GHRequest.end();
 }
 
 module.exports = router;
