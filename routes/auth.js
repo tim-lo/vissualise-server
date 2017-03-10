@@ -37,7 +37,25 @@ router.use(function (req, res, next) {
 /* Grabs the temporary auth code and gets the access token. */
 router.get("/", function(req, res, next) {
   console.log("Code value: " + req.query.code);
-  /* Return JSON format: {"access_token":"ACCESS_TOKEN","token_type":"bearer","scope":"repo,user:email"} */
+  // /* Return JSON format: {"access_token":"ACCESS_TOKEN","token_type":"bearer","scope":"repo,user:email"} */
+  // var options = {
+  //   url: "https://github.com/login/oauth/access_token?client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&code=" + req.query.code,
+  //   headers: {
+  //     "Accept": "application/json"
+  //   }
+  // };
+  // request.post(options, (error, response, body) => {
+  //   console.log("Error: ", error);
+  //   if (error) res.render("graph", { title: "Error - Vissualise", message: error });
+  //   console.log("Status Code: ", response && response.statusCode);
+  //   console.log("Body: ", body);
+  //   ACCESS_TOKEN = JSON.parse(body);
+  //   next();
+  // });
+  authenticate().then(getAuthdUser()).then(res.render("graph", { title: "Welcome " + JSON.parse(body).login, message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]}));
+});
+
+function authenticate() {
   var options = {
     url: "https://github.com/login/oauth/access_token?client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&code=" + req.query.code,
     headers: {
@@ -50,11 +68,10 @@ router.get("/", function(req, res, next) {
     console.log("Status Code: ", response && response.statusCode);
     console.log("Body: ", body);
     ACCESS_TOKEN = JSON.parse(body);
-    next();
   });
-});
+}
 
-router.get("/", function(req, res, next) {
+function getAuthdUser() {
   var options = {
     url: "https://api.github.com/user",
     headers: {
@@ -68,8 +85,26 @@ router.get("/", function(req, res, next) {
     console.log("Status Code: ", response && response.statusCode);
     console.log("Body: ", body);
     console.log("Authenticated user: " + JSON.parse(body).login);
-    res.render("graph", { title: "Welcome " + JSON.parse(body).login, message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]});
+    // res.render("graph", { title: "Welcome " + JSON.parse(body).login, message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]});
   });
-});
+}
+
+// router.get("/", function(req, res, next) {
+//   var options = {
+//     url: "https://api.github.com/user",
+//     headers: {
+//       "User-Agent": "Vissualise",
+//       "Authorization": "token " + ACCESS_TOKEN["access_token"],
+//       "Accept": "application/json"
+//     }
+//   };
+//   request.get(options, (error, response, body) => {
+//     console.log("Error: ", error);
+//     console.log("Status Code: ", response && response.statusCode);
+//     console.log("Body: ", body);
+//     console.log("Authenticated user: " + JSON.parse(body).login);
+//     res.render("graph", { title: "Welcome " + JSON.parse(body).login, message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]});
+//   });
+// });
 
 module.exports = router;
