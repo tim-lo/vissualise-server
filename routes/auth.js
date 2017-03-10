@@ -68,8 +68,8 @@ router.get("/", function(req, res, next) {
     console.log("Status Code: ", response && response.statusCode);
     console.log("Body: ", body);
     console.log("Authenticated user: " + JSON.parse(body).login);
+    res.render("graph", { title: "Welcome " + JSON.parse(body).login, message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]});
   });
-  res.render("graph", { title: "That worked!", message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]});
 });
 
 module.exports = router;
