@@ -50,8 +50,8 @@ router.get("/", function(req, res, next) {
     console.log("Status Code: ", response && response.statusCode);
     console.log("Body: ", body);
     ACCESS_TOKEN = JSON.parse(body);
+    next();
   });
-  next();
 });
 
 router.get("/", function(req, res, next) {
