@@ -5,6 +5,7 @@ var   express = require("express"),
 var   router = express.Router();
 const StringDecoder = require("string_decoder").StringDecoder;
 const decoder = new StringDecoder("utf8");
+const AUTH_TOKEN = null;
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 var   ACCESS_TOKEN;
@@ -37,6 +38,7 @@ router.use(function (req, res, next) {
 /* Grabs the temporary auth code and gets the access token. */
 router.get("/", function(req, res, next) {
   console.log("Code value: " + req.query.code);
+  ACCESS_TOKEN = req.query.code;
   // /* Return JSON format: {"access_token":"ACCESS_TOKEN","token_type":"bearer","scope":"repo,user:email"} */
   // var options = {
   //   url: "https://github.com/login/oauth/access_token?client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&code=" + req.query.code,
@@ -52,12 +54,12 @@ router.get("/", function(req, res, next) {
   //   ACCESS_TOKEN = JSON.parse(body);
   //   next();
   // });
-  authenticate().then(getAuthdUser()).then(res.render("graph", { title: "Welcome " + JSON.parse(body).login, message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]}));
+  authenticate().then(getAuthdUser()).then(res.render("graph", { title: "Welcome " + JSON.parse(body).login, message: "Code value: " + AUTH_TOKEN + " Access token: " + ACCESS_TOKEN["access_token"]}));
 });
 
 function authenticate() {
   var options = {
-    url: "https://github.com/login/oauth/access_token?client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&code=" + req.query.code,
+    url: "https://github.com/login/oauth/access_token?client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&code=" + AUTH_TOKEN,
     headers: {
       "Accept": "application/json"
     }
