@@ -67,7 +67,7 @@ function getUserRepos() {
     console.log("Error: ", error);
     console.log("Status Code: ", response && response.statusCode);
     console.log("Body: ", body);
-    console.log("Authenticated user: " + body.login);
+    console.log("Authenticated user: " + body["login"]);
   });
 }
 
