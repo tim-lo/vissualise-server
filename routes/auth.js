@@ -101,7 +101,7 @@ router.get("/", function(req, res, next) {
     console.log('Error:', error);
     console.log('Status Code:', response && response.statusCode);
     console.log('Body:', body);
-    ACCESS_TOKEN = JSON.parse(d.toString());
+    ACCESS_TOKEN = JSON.parse(body.toString());
     getUserRepos();
     res.render("graph", { title: "That worked!", message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]});
   });
