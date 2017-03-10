@@ -18,19 +18,19 @@ router.use(function (req, res, next) {
     minimize: false
   });
   var Users = mongoose.model("Users", UsersSchema);
-  var JohnDoe = new Users({
-    name: "John Doe",
-    token: "123456789"
-  });
-  console.log("Hello, my name is " + JohnDoe.name);
-  JohnDoe.save((err, JohnDoe) => {
-    if (err) return console.error(err);
-    console.log("User saved!");
-    Users.find((err, users) => {
-      if (err) return console.error(err);
-      console.log("All users: " + users);
-    })
-  });
+  // var JohnDoe = new Users({
+  //   name: "John Doe",
+  //   token: "123456789"
+  // });
+  // console.log("Hello, my name is " + JohnDoe.name);
+  // JohnDoe.save((err, JohnDoe) => {
+  //   if (err) return console.error(err);
+  //   console.log("User saved!");
+  //   Users.find((err, users) => {
+  //     if (err) return console.error(err);
+  //     console.log("All users: " + users);
+  //   })
+  // });
   next();
 });
 
@@ -46,15 +46,15 @@ router.get("/", function(req, res, next) {
   };
   request.post(options, (error, response, body) => {
     console.log("Error: ", error);
+    if (error) res.render("graph", { title: "Error - Vissualise", message: error });
     console.log("Status Code: ", response && response.statusCode);
     console.log("Body: ", body);
     ACCESS_TOKEN = JSON.parse(body);
-    getUserRepos();
-    res.render("graph", { title: "That worked!", message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]});
+    next();
   });
 });
 
-function getUserRepos() {
+router.get("/", function(req, res, next) {
   var options = {
     url: "https://api.github.com/user",
     headers: {
@@ -69,6 +69,7 @@ function getUserRepos() {
     console.log("Body: ", body);
     console.log("Authenticated user: " + JSON.parse(body).login);
   });
-}
+  res.render("graph", { title: "That worked!", message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]});
+});
 
 module.exports = router;
