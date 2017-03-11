@@ -70,7 +70,7 @@ function authenticate() {
       "Accept": "application/json"
     }
   };
-  request.post(options, (error, response, body) => {
+  request.postAsync(options, (error, response, body) => {
     console.log("Error: ", error);
     if (error) res.render("graph", { title: "Error - Vissualise", message: error });
     console.log("Status Code: ", response && response.statusCode);
@@ -88,7 +88,7 @@ function getAuthdUser() {
       "Accept": "application/json"
     }
   };
-  request.get(options, (error, response, body) => {
+  request.getAsync(options, (error, response, body) => {
     console.log("Error: ", error);
     console.log("Status Code: ", response && response.statusCode);
     console.log("Body: ", body);
