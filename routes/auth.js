@@ -1,7 +1,8 @@
 var   express = require("express"),
       https = require("https"),
       mongoose = require("mongoose"),
-      request = require("request");
+      Promise = require("bluebird");
+      request = Promise.promisifyAll(require("request"));
 var   router = express.Router();
 const StringDecoder = require("string_decoder").StringDecoder;
 const decoder = new StringDecoder("utf8");
@@ -54,7 +55,12 @@ router.get("/", function(req, res, next) {
   //   ACCESS_TOKEN = JSON.parse(body);
   //   next();
   // });
-  authenticate().then(getAuthdUser()).then(res.render("graph", { title: "Welcome " + JSON.parse(body).login, message: "Code value: " + AUTH_TOKEN + " Access token: " + ACCESS_TOKEN["access_token"]}));
+  authenticate()
+    .then(getAuthdUser())
+    .then(res.render("graph", { title: "Welcome " + JSON.parse(body).login, message: "Code value: " + AUTH_TOKEN + " Access token: " + ACCESS_TOKEN["access_token"]}))
+    .catch((e) => {
+      console.log(e);
+    });
 });
 
 function authenticate() {
