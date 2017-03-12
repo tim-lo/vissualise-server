@@ -13,14 +13,15 @@ var   AUTH_TOKEN = null;
 var   Users = null;
 
 router.use(function (req, res, next) {
-  console.log("Code value: " + req.query.code);
-  AUTH_TOKEN = req.query.code;
   Users = req.app.locals.Users;
   next();
 });
 
 /* Grabs the temporary auth code and gets the access token. */
 router.get("/", function(req, res, next) {
+  console.log("Code value: " + req.query.code);
+  AUTH_TOKEN = req.query.code;
+  
   var options = {
     method: "POST",
     uri: "https://github.com/login/oauth/access_token?client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&code=" + AUTH_TOKEN,

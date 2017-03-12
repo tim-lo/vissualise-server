@@ -5,45 +5,40 @@ block head
 block content
   h1=title
   p=message
-  div(class="chart-container" width="400" height="400")
-    canvas(class="chart" width="400" height="400")
+  div(id="myDiv")
+  div(id="hoverinfo", style="margin-left:80px;")
 
 block script
   script(type="text/javascript", src="https://cdn.jsdelivr.net/bluebird/3.5.0/bluebird.js")
-  script(type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js")
-  script(type="text/javascript", src="https://d3js.org/d3.v4.min.js")
+  script(type="text/javascript", src="https://cdn.plot.ly/plotly-latest.min.js")
   script(type="text/javascript").
     console.log("You should be able to see graphs on this page!");
-    var ctx = document.querySelector(".chart");
-    var data = {
-    datasets: [
-      {
-        label: "First Dataset",
-        data: [
-          {
-              x: 20,
-              y: 30,
-              r: 15
-          },
-          {
-              x: 40,
-              y: 10,
-              r: 10
-          }
-        ],
-        backgroundColor:"#FF6384",
-        hoverBackgroundColor: "#FF6384",
-      }]
-    };
-    var bubbleChart = new Chart(ctx, {
-      type: "bubble",
-      data: data,
-      options: {
-        elements: {
-          points: {
-            borderWidth: 1,
-            borderColor: "rgb(0, 0, 0)"
-          }
-        }
-      }
+
+    var myPlot = document.getElementById('myDiv'),
+    hoverInfo = document.getElementById('hoverinfo'),
+    d3 = Plotly.d3,
+    N = 16,
+    x = d3.range(N),
+    y1 = d3.range(N).map( d3.random.normal() ),
+    y2 = d3.range(N).map( d3.random.normal() ),
+    data = [ { x:x, y:y1, type:'scatter', name:'Trial 1',
+        mode:'markers', marker:{size:16} },
+        { x:x, y:y2, type:'scatter', name:'Trial 2',
+        mode:'markers', marker:{size:16} } ];
+    layout = { 
+        hovermode:'closest',
+        title:'Hover on Points'
+     };
+
+    Plotly.plot('myDiv', data, layout);
+
+    myPlot.on('plotly_hover', function(data){
+        var infotext = data.points.map(function(d){
+          return (d.data.name+': x= '+d.x+', y= '+d.y.toPrecision(3));
+        });
+      
+        hoverInfo.innerHTML = infotext.join('<br/>');
+    })
+    .on('plotly_unhover', function(data){
+        hoverInfo.innerHTML = '';
     });
