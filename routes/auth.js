@@ -78,8 +78,8 @@ router.get("/", function(req, res, next) {
     };
     request(options).then((parsedBody) => {
       console.log("Body: " + JSON.stringify(parsedBody));
-      console.log("Authenticated user: " + parsedBody.login);
-      res.render("graph", { title: "Welcome " + JSON.parse(body).login, message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]});
+      console.log("Authenticated user: " + parsedBody["login"]);
+      res.render("graph", { title: "Welcome " + parsedBody.login, message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]});
     }).catch((error) => {
       console.log("Error: " + error);
       res.render("graph", { title: "Error - Vissualise", message: error });
