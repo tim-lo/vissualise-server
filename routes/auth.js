@@ -12,14 +12,14 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET;
 var   ACCESS_TOKEN;
 
 router.use(function (req, res, next) {
-  var UsersSchema = mongoose.Schema({
-    name: String,
-    token: String
-  }, {
-    collection: "Users",
-    minimize: false
-  });
-  var Users = mongoose.model("Users", UsersSchema);
+  // var UsersSchema = mongoose.Schema({
+  //   name: String,
+  //   token: String
+  // }, {
+  //   collection: "Users",
+  //   minimize: false
+  // });
+  // var Users = mongoose.model("Users", UsersSchema);
   // var JohnDoe = new Users({
   //   name: "John Doe",
   //   token: "123456789"
