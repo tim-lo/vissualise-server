@@ -39,7 +39,7 @@ router.use(function (req, res, next) {
 /* Grabs the temporary auth code and gets the access token. */
 router.get("/", function(req, res, next) {
   console.log("Code value: " + req.query.code);
-  ACCESS_TOKEN = req.query.code;
+  AUTH_TOKEN = req.query.code;
   // /* Return JSON format: {"access_token":"ACCESS_TOKEN","token_type":"bearer","scope":"repo,user:email"} */
   // var options = {
   //   url: "https://github.com/login/oauth/access_token?client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&code=" + req.query.code,
