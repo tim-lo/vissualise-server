@@ -77,8 +77,8 @@ router.get("/", function(req, res, next) {
       }
     };
     request(options).then((parsedBody) => {
-      console.log("Authenticated user: " + parsedBody.login);
       console.log("Body: " + JSON.stringify(parsedBody));
+      console.log("Authenticated user: " + parsedBody);
       res.render("graph", { title: "Welcome " + parsedBody.login, message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]});
     }).catch((error) => {
       console.log("Error: " + error);
