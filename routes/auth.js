@@ -56,6 +56,8 @@ router.get("/", function(req, res, next) {
   //   ACCESS_TOKEN = JSON.parse(body);
   //   next();
   // });
+  Promise.promisifyAll(authenticate);
+  Promise.promisifyAll(getAuthdUser);
   authenticate()
     .then(getAuthdUser())
     .then(res.render("graph", { title: "Welcome " + JSON.parse(body).login, message: "Code value: " + AUTH_TOKEN + " Access token: " + ACCESS_TOKEN["access_token"]}))
