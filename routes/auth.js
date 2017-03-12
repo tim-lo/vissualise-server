@@ -77,16 +77,21 @@ router.get("/", function(req, res, next) {
       Users.findOne({ "name": parsedBody.login }, (err, result) => {
         if (err) return console.log("Error querying database: " + err);
         console.log("Query result: " + result);
-      });
-      console.log("Adding " + newUser.name + " to the database...");
-      newUser.save((err, newUser) => {
-        if (err) return console.error(err);
-        console.log("User saved!");
-        Users.find((err, users) => {
+        if (result == null) {
+          console.log("Adding " + newUser.name + " to the database...");
+          newUser.save((err, newUser) => {
           if (err) return console.error(err);
-          console.log("All users: " + users);
-        })
+          console.log("User saved!");
+          Users.find((err, users) => {
+              if (err) return console.error(err);
+              console.log("All users: " + users);
+            })
+          });
+        } else {
+          console.log("User already exists!");
+        }
       });
+      
 
     }).catch((error) => {
       console.log("Error: " + error);
