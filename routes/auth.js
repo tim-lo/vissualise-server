@@ -74,11 +74,12 @@ router.get("/", function(req, res, next) {
         "User-Agent": "Vissualise",
         "Authorization": "token " + ACCESS_TOKEN["access_token"],
         "Accept": "application/json"
-      }
+      },
+      json: true
     };
     request(options).then((parsedBody) => {
       console.log("Body: " + JSON.stringify(parsedBody));
-      console.log("Authenticated user: " + parsedBody);
+      console.log("Authenticated user: " + parsedBody.login);
       res.render("graph", { title: "Welcome " + parsedBody.login, message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]});
     }).catch((error) => {
       console.log("Error: " + error);
