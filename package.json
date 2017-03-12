@@ -16,6 +16,7 @@
     "node-sass-middleware": "0.9.8",
     "pug": "~2.0.0-beta10",
     "request": "^2.81.0",
+    "request-promise-native": "^1.0.3",
     "serve-favicon": "~2.3.2"
   }
 }

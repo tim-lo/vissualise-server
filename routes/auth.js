@@ -2,8 +2,7 @@ var   express = require("express"),
       https = require("https"),
       mongoose = require("mongoose"),
       Promise = require("bluebird");
-      request = Promise.promisifyAll(require("request"), {multiArgs: true});
-Promise.promisifyAll(request, {multiArgs: true});
+      request = require("request-promise-native");
 var   router = express.Router();
 const StringDecoder = require("string_decoder").StringDecoder;
 const decoder = new StringDecoder("utf8");
@@ -56,14 +55,39 @@ router.get("/", function(req, res, next) {
   //   ACCESS_TOKEN = JSON.parse(body);
   //   next();
   // });
-  Promise.promisifyAll(authenticate);
-  Promise.promisifyAll(getAuthdUser);
-  authenticate()
-    .then(getAuthdUser())
-    .then(res.render("graph", { title: "Welcome " + JSON.parse(body).login, message: "Code value: " + AUTH_TOKEN + " Access token: " + ACCESS_TOKEN["access_token"]}))
-    .catch((e) => {
-      console.log(e);
+
+  var options = {
+    method: "POST",
+    url: "https://github.com/login/oauth/access_token?client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&code=" + AUTH_TOKEN,
+    headers: {
+      "Accept": "application/json"
+    },
+    json: true
+  };
+  request(options).then((parsedBody) => {
+    console.log("Body: " + parsedBody);
+    ACCESS_TOKEN = parsedBody;
+    options = {
+      method: "GET",
+      url: "https://api.github.com/user",
+      headers: {
+        "User-Agent": "Vissualise",
+        "Authorization": "token " + ACCESS_TOKEN["access_token"],
+        "Accept": "application/json"
+      }
+    };
+    request(options).then((parsedBody) => {
+      console.log("Body: " + parsedBody);
+      console.log("Authenticated user: " + parsedBody.login);
+      res.render("graph", { title: "Welcome " + JSON.parse(body).login, message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]});
+    }).catch((error) => {
+      console.log("Error: " + error);
+      res.render("graph", { title: "Error - Vissualise", message: error });
     });
+  }).catch((error) => {
+    console.log("Error: " + error);
+    res.render("graph", { title: "Error - Vissualise", message: error });
+  });
 });
 
 function authenticate() {
@@ -73,7 +97,7 @@ function authenticate() {
       "Accept": "application/json"
     }
   };
-  request.postAsync(options, (error, response, body) => {
+  request.post(options, (error, response, body) => {
     console.log("Error: ", error);
     if (error) res.render("graph", { title: "Error - Vissualise", message: error });
     console.log("Status Code: ", response && response.statusCode);
@@ -91,7 +115,7 @@ function getAuthdUser() {
       "Accept": "application/json"
     }
   };
-  request.getAsync(options, (error, response, body) => {
+  request.get(options, (error, response, body) => {
     console.log("Error: ", error);
     console.log("Status Code: ", response && response.statusCode);
     console.log("Body: ", body);
