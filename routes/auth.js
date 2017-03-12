@@ -2,7 +2,8 @@ var   express = require("express"),
       https = require("https"),
       mongoose = require("mongoose"),
       Promise = require("bluebird");
-      request = Promise.promisifyAll(require("request"));
+      request = Promise.promisifyAll(require("request"), {multiArgs: true});
+Promise.promisifyAll(request, {multiArgs: true});
 var   router = express.Router();
 const StringDecoder = require("string_decoder").StringDecoder;
 const decoder = new StringDecoder("utf8");
