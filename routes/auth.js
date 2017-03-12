@@ -65,7 +65,7 @@ router.get("/", function(req, res, next) {
     json: true
   };
   request(options).then((parsedBody) => {
-    console.log("Body: " + parsedBody);
+    console.log("Body: " + JSON.stringify(parsedBody));
     ACCESS_TOKEN = parsedBody;
     options = {
       method: "GET",
@@ -77,7 +77,7 @@ router.get("/", function(req, res, next) {
       }
     };
     request(options).then((parsedBody) => {
-      console.log("Body: " + parsedBody);
+      console.log("Body: " + JSON.stringify(parsedBody));
       console.log("Authenticated user: " + parsedBody.login);
       res.render("graph", { title: "Welcome " + JSON.parse(body).login, message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]});
     }).catch((error) => {
