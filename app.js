@@ -66,7 +66,6 @@ db.on("open", function() {
     collection: "Users",
     minimize: false
   });
-  app.locals.UsersSchema = UsersSchema;
   var Users = mongoose.model("Users", UsersSchema);
   app.locals.Users = Users;
 });
