@@ -58,7 +58,7 @@ router.get("/", function(req, res, next) {
 
   var options = {
     method: "POST",
-    url: "https://github.com/login/oauth/access_token?client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&code=" + AUTH_TOKEN,
+    uri: "https://github.com/login/oauth/access_token?client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&code=" + AUTH_TOKEN,
     headers: {
       "Accept": "application/json"
     },
@@ -69,7 +69,7 @@ router.get("/", function(req, res, next) {
     ACCESS_TOKEN = parsedBody;
     options = {
       method: "GET",
-      url: "https://api.github.com/user",
+      uri: "https://api.github.com/user",
       headers: {
         "User-Agent": "Vissualise",
         "Authorization": "token " + ACCESS_TOKEN["access_token"],
