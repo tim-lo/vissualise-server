@@ -6,10 +6,10 @@ var   express = require("express"),
 var   router = express.Router();
 const StringDecoder = require("string_decoder").StringDecoder;
 const decoder = new StringDecoder("utf8");
-const AUTH_TOKEN = null;
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 var   ACCESS_TOKEN;
+var   AUTH_TOKEN = null;
 
 router.use(function (req, res, next) {
   // var UsersSchema = mongoose.Schema({
