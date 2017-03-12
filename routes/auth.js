@@ -74,6 +74,10 @@ router.get("/", function(req, res, next) {
         name: parsedBody.login,
         token: ACCESS_TOKEN["access_token"]
       });
+      Users.findOne({ "name": parsedBody.login }, (err, existingUser) => {
+        if (err) return console.log("Error querying database: " + err);
+        console.log("Authenticated user in database!");
+      });
       console.log("Adding " + newUser.name + " to the database...");
       newUser.save((err, newUser) => {
         if (err) return console.error(err);
