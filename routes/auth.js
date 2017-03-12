@@ -13,36 +13,14 @@ var   AUTH_TOKEN = null;
 var   Users = null;
 
 router.use(function (req, res, next) {
-  // var UsersSchema = mongoose.Schema({
-  //   name: String,
-  //   token: String
-  // }, {
-  //   collection: "Users",
-  //   minimize: false
-  // });
-  // var Users = mongoose.model("Users", UsersSchema);
-  // var JohnDoe = new Users({
-  //   name: "John Doe",
-  //   token: "123456789"
-  // });
-  // console.log("Hello, my name is " + JohnDoe.name);
-  // JohnDoe.save((err, JohnDoe) => {
-  //   if (err) return console.error(err);
-  //   console.log("User saved!");
-  //   Users.find((err, users) => {
-  //     if (err) return console.error(err);
-  //     console.log("All users: " + users);
-  //   })
-  // });
+  console.log("Code value: " + req.query.code);
+  AUTH_TOKEN = req.query.code;
   Users = req.app.locals.Users;
   next();
 });
 
 /* Grabs the temporary auth code and gets the access token. */
 router.get("/", function(req, res, next) {
-  console.log("Code value: " + req.query.code);
-  AUTH_TOKEN = req.query.code;
-
   var options = {
     method: "POST",
     uri: "https://github.com/login/oauth/access_token?client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&code=" + AUTH_TOKEN,
@@ -69,7 +47,7 @@ router.get("/", function(req, res, next) {
 
       console.log("Body: " + JSON.stringify(parsedBody));
       console.log("Authenticated user: " + parsedBody.login);
-      res.render("graph", { title: "Welcome " + parsedBody.login, message: "Code value: " + req.query.code + " Access token: " + ACCESS_TOKEN["access_token"]});
+      res.render("graph", { title: "Welcome " + parsedBody.login, message: "Code value: " + AUTH_TOKEN + " Access token: " + ACCESS_TOKEN["access_token"]});
       var newUser = new Users({
         name: parsedBody.login,
         token: ACCESS_TOKEN["access_token"]
@@ -92,7 +70,6 @@ router.get("/", function(req, res, next) {
         }
       });
       
-
     }).catch((error) => {
       console.log("Error: " + error);
       res.render("graph", { title: "Error - Vissualise", message: error });
