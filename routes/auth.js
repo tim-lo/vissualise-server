@@ -24,7 +24,7 @@ router.get("/", function(req, res, next) {
   
   var options = {
     method: "POST",
-    uri: "https://github.com/login/oauth/access_token?client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&code=" + AUTH_TOKEN,
+    uri: "https://github.com/login/oauth/access_token?client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&code=" + AUTH_TOKEN + "&redirect_uri=" + "github.com",
     headers: {
       "Accept": "application/json"
     },
@@ -68,7 +68,7 @@ router.get("/", function(req, res, next) {
             })
           });
         } else {
-          console.log("User already exists!");
+          console.log("User already exists!"); //User already in database so we do nothing
         }
       });
 
