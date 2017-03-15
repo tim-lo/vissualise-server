@@ -35,7 +35,7 @@ router.get("/", function(req, res, next) {
   request(options).then((parsedBody) => {
     console.log("Body: " + JSON.stringify(parsedBody));
     ACCESS_TOKEN = parsedBody;
-    res.status(200).end();
+    res.redirect("https://github.com");
     // options = {
     //   method: "GET",
     //   uri: "https://api.github.com/user",
