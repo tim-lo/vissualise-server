@@ -35,51 +35,51 @@ router.get("/", function(req, res, next) {
   request(options).then((parsedBody) => {
     console.log("Body: " + JSON.stringify(parsedBody));
     ACCESS_TOKEN = parsedBody;
-    res.redirect("https://github.com");
-    // options = {
-    //   method: "GET",
-    //   uri: "https://api.github.com/user",
-    //   headers: {
-    //     "User-Agent": "Vissualise",
-    //     "Authorization": "token " + ACCESS_TOKEN["access_token"],
-    //     "Accept": "application/json"
-    //   },
-    //   json: true
-    // };
-    // request(options).then((parsedBody) => {
+    options = {
+      method: "GET",
+      uri: "https://api.github.com/user",
+      headers: {
+        "User-Agent": "Vissualise",
+        "Authorization": "token " + ACCESS_TOKEN["access_token"],
+        "Accept": "application/json"
+      },
+      json: true
+    };
+    request(options).then((parsedBody) => {
 
-    //   console.log("Body: " + JSON.stringify(parsedBody));
-    //   console.log("Authenticated user: " + parsedBody.login);
-    //   // res.render("graph", { title: "Welcome " + parsedBody.login, message: "Code value: " + AUTH_TOKEN + " Access token: " + ACCESS_TOKEN["access_token"]});
-    //   var newUser = new Users({
-    //     name: parsedBody.login,
-    //     token: ACCESS_TOKEN["access_token"]
-    //   });
-    //   Users.findOne({ "name": parsedBody.login }, (err, result) => {
-    //     if (err) return console.log("Error querying database: " + err);
-    //     console.log("Query result: " + result);
-    //     if (result == null) {
-    //       console.log("Adding " + newUser.name + " to the database...");
-    //       newUser.save((err, newUser) => {
-    //       if (err) return console.error(err);
-    //       console.log("User saved!");
-    //       Users.find((err, users) => {
-    //           if (err) return console.error(err);
-    //           console.log("All users: " + users);
-    //         })
-    //       });
-    //     } else {
-    //       console.log("User already exists!"); //User already in database so we do nothing
-    //     }
-    //   });
+      console.log("Body: " + JSON.stringify(parsedBody));
+      console.log("Authenticated user: " + parsedBody.login);
+      // res.render("graph", { title: "Welcome " + parsedBody.login, message: "Code value: " + AUTH_TOKEN + " Access token: " + ACCESS_TOKEN["access_token"]});
+      res.redirect("https://github.com");
+      var newUser = new Users({
+        name: parsedBody.login,
+        token: ACCESS_TOKEN["access_token"]
+      });
+      Users.findOne({ "name": parsedBody.login }, (err, result) => {
+        if (err) return console.log("Error querying database: " + err);
+        console.log("Query result: " + result);
+        if (result == null) {
+          console.log("Adding " + newUser.name + " to the database...");
+          newUser.save((err, newUser) => {
+          if (err) return console.error(err);
+          console.log("User saved!");
+          Users.find((err, users) => {
+              if (err) return console.error(err);
+              console.log("All users: " + users);
+            })
+          });
+        } else {
+          console.log("User already exists!"); //User already in database so we do nothing
+        }
+      });
       
-    // }).catch((error) => {
-    //   console.log("Error: " + error);
-    //   // res.render("graph", { title: "Error - Vissualise", message: error });
-    // });
+    }).catch((error) => {
+      console.log("Error: " + error);
+      res.render("graph", { title: "Error - Vissualise", message: error });
+    });
   }).catch((error) => {
     console.log("Error: " + error);
-    // res.render("graph", { title: "Error - Vissualise", message: error });
+    res.render("graph", { title: "Error - Vissualise", message: error });
     res.status(404).end();
   });
 });
