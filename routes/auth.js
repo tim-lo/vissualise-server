@@ -49,7 +49,7 @@ router.get("/", function(req, res, next) {
 
       console.log("Body: " + JSON.stringify(parsedBody));
       console.log("Authenticated user: " + parsedBody.login);
-      res.render("graph", { title: "Welcome " + parsedBody.login, message: "Code value: " + AUTH_TOKEN + " Access token: " + ACCESS_TOKEN["access_token"]});
+      // res.render("graph", { title: "Welcome " + parsedBody.login, message: "Code value: " + AUTH_TOKEN + " Access token: " + ACCESS_TOKEN["access_token"]});
       var newUser = new Users({
         name: parsedBody.login,
         token: ACCESS_TOKEN["access_token"]
@@ -76,11 +76,11 @@ router.get("/", function(req, res, next) {
       
     }).catch((error) => {
       console.log("Error: " + error);
-      res.render("graph", { title: "Error - Vissualise", message: error });
+      // res.render("graph", { title: "Error - Vissualise", message: error });
     });
   }).catch((error) => {
     console.log("Error: " + error);
-    res.render("graph", { title: "Error - Vissualise", message: error });
+    // res.render("graph", { title: "Error - Vissualise", message: error });
   });
 });
 
