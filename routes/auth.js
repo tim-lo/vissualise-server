@@ -31,6 +31,7 @@ router.get("/", function(req, res, next) {
     json: true
   };
 
+  // Messy nested requests, needs sorting out!
   request(options).then((parsedBody) => {
     console.log("Body: " + JSON.stringify(parsedBody));
     ACCESS_TOKEN = parsedBody;
@@ -70,6 +71,8 @@ router.get("/", function(req, res, next) {
           console.log("User already exists!");
         }
       });
+
+      
       
     }).catch((error) => {
       console.log("Error: " + error);

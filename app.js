@@ -1,3 +1,10 @@
+/**
+ * To-do:
+ *  - Create APIs for:
+ *     - authentication check
+ *     - 
+ */
+
 var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
 var express = require("express");
@@ -33,7 +40,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", index);
 app.use("/users", users);
-app.use("/auth", auth);
+app.use("/authenticate", auth);
+app.use("/authenticated", );
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
