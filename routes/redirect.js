@@ -6,3 +6,5 @@ const decoder = new StringDecoder("utf8");
 router.get("/", (req, res, next) => {
   res.redirect("https://github.com");
 });
+
+module.exports = router;
