@@ -24,7 +24,7 @@ router.get("/", function(req, res, next) {
   
   var options = {
     method: "POST",
-    uri: "https://github.com/login/oauth/access_token?client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&code=" + AUTH_TOKEN + "&redirect_uri=" + "github.com",
+    uri: "https://github.com/login/oauth/access_token?client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&code=" + AUTH_TOKEN + "&redirect_uri=https://vissualise.herokuapp.com/redirect",
     headers: {
       "Accept": "application/json"
     },
