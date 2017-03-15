@@ -26,7 +26,7 @@ router.get("/", function(req, res, next) {
     method: "POST",
     uri: "https://github.com/login/oauth/access_token?client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&code=" + AUTH_TOKEN,
     headers: {
-      "Accept": "application/vnd.github.v3+json"
+      "Accept": "application/json"
     },
     json: true
   };
@@ -41,7 +41,7 @@ router.get("/", function(req, res, next) {
       headers: {
         "User-Agent": "Vissualise",
         "Authorization": "token " + ACCESS_TOKEN["access_token"],
-        "Accept": "application/vnd.github.v3+json"
+        "Accept": "application/json"
       },
       json: true
     };
